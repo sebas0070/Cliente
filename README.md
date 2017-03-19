@@ -1,4 +1,3 @@
-# Cliente
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
@@ -9,6 +8,7 @@ public class Cliente {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		if(args.length==3){
 		int cliente;
 		String tipo_cliente=args[0];
 		String ip_servidor=args[1];
@@ -17,18 +17,25 @@ public class Cliente {
 		cliente=comprobar_cliente(tipo_cliente);
 		
 		if(cliente==1){
-			System.out.println("Se va enviar el paquete.");
+			//System.out.println("Se va enviar el paquete.");
 			fugaz( ip_servidor, tipo_cliente, puerto);
 			
 		}
 		else if(cliente==2){
-			System.out.println("Entra en persistente.");
+			//System.out.println("Entra en persistente.");
 			persistente(ip_servidor, tipo_cliente, puerto);
 			
 		}
 		else if(cliente==0){
 			System.out.println("Error en comando, vuelva a ejecutar.");
 			System.exit(-1);
+		}
+		}
+		else{
+			
+			System.out.println("EJECUTAR:");
+			System.out.println("-DCP: JAVA CLIENTE.JAVA -UDP IPSERVIDOR PUERTO");
+			System.out.println("-TCP: JAVA CLIENTE.JAVA -TCP IPSERVIDOR PUERTO");
 		}
 		
 		
@@ -41,12 +48,12 @@ public class Cliente {
 	public static int  comprobar_cliente(String tipo_cliente){
 		String tipo1="-udp";String tipo2="-tcp";
 		if(tipo_cliente.equalsIgnoreCase(tipo1)){
-			System.out.println("El cliente es fugaz.");
+		//	System.out.println("El cliente es fugaz.");
 			
 			return 1;
 		}
 		else if(tipo_cliente.equalsIgnoreCase(tipo2)){
-			System.out.println("El cliente es persistente.");
+			//System.out.println("El cliente es persistente.");
 			return 2;
 		}
 		else{
