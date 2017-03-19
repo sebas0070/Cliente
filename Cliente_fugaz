@@ -1,0 +1,81 @@
+import java.net.*;
+
+public class Cliente_fugaz {
+	private String tipo_cliente;
+	private String ip_servidor;
+	private int puerto;
+	private String mensaje="Fugaz";	
+	byte[] mensaje_enviado;
+	byte[] mensaje_recibido =new byte[1024];
+	private String mensaje_imprimir="";
+	private InetAddress ip_server;
+	Cliente_fugaz(){}
+	 
+	void conectar(){
+		
+		try {
+		//	System.out.println("Preparando paquete.");
+		   ip_server = InetAddress.getByName(ip_servidor);//Paso la ip a tipo Intet
+	        DatagramSocket  Socket = new DatagramSocket();//Creo una instacia de datagrama
+	        mensaje_enviado = mensaje.getBytes( );//Paso el mensaje que envio a bytes
+	        /*
+	        creamos una datagrama y le pasamos el mensaje, la longitud del mensaje, el puerto y el servidor.*/
+	        
+	        DatagramPacket out = new DatagramPacket(mensaje_enviado, mensaje_enviado.length, ip_server, puerto); 	
+	        
+	        Socket.send(out);//Envio datagrama 
+	      //  System.out.println("Paquete enviado,esperando recibir el mensaje.");
+	        //Espero a recibir el mensaje.
+	        DatagramPacket in= new DatagramPacket(mensaje_recibido,1024);
+	        
+	        Socket.receive(in);//Recibo el mensaje
+	        mensaje_recibido=in.getData();
+			    for(int i = 0; i < mensaje_recibido.length; i++)
+			    {
+			    	mensaje_imprimir += (char)mensaje_recibido[i];
+			    }
+	       
+	        System.out.println(mensaje_imprimir.trim());
+	        
+	        Socket.close( ); //cierro el socket.
+	        
+	      } // Capturamos Exception si las hay.
+		
+	      catch (Exception ex) {
+	        ex.printStackTrace( );
+	      }
+		
+		
+	}
+	
+	
+	public String getTipo_cliente() {
+		return tipo_cliente;
+	}
+	public void setTipo_cliente(String tipo_cliente) {
+		this.tipo_cliente = tipo_cliente;
+	}
+	public int getPuerto() {
+		return puerto;
+	}
+	public void setPuerto(int puerto) {
+		this.puerto = puerto;
+	}
+	public String getIp_servidor() {
+		return ip_servidor;
+	}
+	public void setIp_servidor(String ip_servidor) {
+		this.ip_servidor = ip_servidor;
+	}
+
+	public String getMensaje_imprimir() {
+		return mensaje_imprimir;
+	}
+
+	public void setMensaje_imprimir(String mensaje_imprimir) {
+		this.mensaje_imprimir = mensaje_imprimir;
+	}
+
+
+}
+
