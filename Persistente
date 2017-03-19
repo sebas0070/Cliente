@@ -1,0 +1,89 @@
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.Scanner;;
+
+public class Cliente_persistente {
+	private String tipo_cliente;
+	private String ip_servidor;
+	private int puerto;
+	
+	private String mensaje="Persistente";	
+	private String mensaje_imprimir1;
+	private InetAddress ip_server;
+	private String respuesta;
+	
+	Cliente_persistente(){}
+	
+	void conecta(){
+		try{
+		
+		ip_server = InetAddress.getByName(ip_servidor);//Paso la ip a tipo Intet
+		
+        Socket persistente=new Socket(ip_server,puerto);
+        
+        DataOutputStream out= new DataOutputStream(persistente.getOutputStream());
+        DataInputStream in = new DataInputStream(persistente.getInputStream());
+      
+        do{
+        out.writeUTF(mensaje);
+        //System.out.println("Se envia .");
+        mensaje_imprimir1=in.readUTF();
+        //System.out.println("Se recibe.");
+	    System.out.println(mensaje_imprimir1);
+        
+        System.out.println("¿Quiere otro refran? (s/n)");
+        Scanner entradaEscaner = new Scanner (System.in); 
+        respuesta = entradaEscaner.nextLine (); 
+        }while(!respuesta.equalsIgnoreCase("n"));
+        
+       out.close();
+	   in.close();
+               	    
+	    persistente.close( ); //cierro el socket.
+        
+        
+		}
+		catch (Exception ex) {
+	        ex.printStackTrace( );
+	      }
+	}
+	
+
+	
+	public String getTipo_cliente() {
+		return tipo_cliente;
+	}
+	public void setTipo_cliente(String tipo_cliente) {
+		this.tipo_cliente = tipo_cliente;
+	}
+	public String getIp_servidor() {
+		return ip_servidor;
+	}
+	public void setIp_servidor(String ip_servidor) {
+		this.ip_servidor = ip_servidor;
+	}
+	public int getPuerto() {
+		return puerto;
+	}
+	public void setPuerto(int puerto) {
+		this.puerto = puerto;
+	}
+
+	public String getMensaje_imprimir1() {
+		return mensaje_imprimir1;
+	}
+
+	public void setMensaje_imprimir1(String mensaje_imprimir1) {
+		this.mensaje_imprimir1 = mensaje_imprimir1;
+	}
+	
+	
+	
+  
+}
